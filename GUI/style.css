@@ -1,0 +1,39 @@
+QMainWindow
+{
+    background-color: #0d1117;
+    color: #161b22;
+    padding: 5px;
+    font-size:5em;
+}
+
+QDialog
+{
+    background-color: #161b22;
+}
+
+QComboBox {
+    color: #161b22
+}
+
+QButtonBox {
+    font-size: 14px;
+    font-family: Arial;
+    color: #b7d1d9
+}
+
+QDialog QLineEdit
+{
+    color: #161b22
+}
+
+QDialog QGroupBox, QDialog QLabel
+{
+    color: #b7d1d9
+}
+
+*
+{
+    font-size: 14px;
+    font-family: Arial;
+    color: #161b22
+}

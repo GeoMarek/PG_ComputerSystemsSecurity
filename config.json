@@ -1,0 +1,14 @@
+{
+    "GUI":{
+        "width":680,
+        "height":180,
+        "title": "Security of computer systems",
+        "x":100,
+        "y":100,
+        "stylesheet": "GUI/style.css"
+    },
+    "algorithms":{
+        "asymmetric": ["rsa1024", "rsa2048"],
+        "symmetric" :["ECB", "CBC", "CTR", "CFB"]
+    }
+}
