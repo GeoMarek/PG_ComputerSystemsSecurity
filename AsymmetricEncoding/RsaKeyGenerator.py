@@ -1,3 +1,4 @@
+import json
 import os
 
 from Crypto.PublicKey import RSA
@@ -9,29 +10,29 @@ class RsaKeyGenerator:
         "rsa2048": 2048
     }
 
-    def __init__(self, filename, algorithm):
-        self.private_key = RSA.generate(self.keys[algorithm])
+    def __init__(self, dirpath, filename, algorithm):
+        self.private_key = RSA.generate(self._getKeyLengthFrom(algorithm))
         self.public_key = self.private_key.publickey()
-
-        self.directory_name = "RSA_keys"
-        self.private_dir = os.path.join(self.directory_name, "private")
-        self.public_dir = os.path.join(self.directory_name, "public")
-
-        self.init_directories()
-        self.save_keys()
+        self.filename = filename
+        self.directory_name = os.path.join(dirpath, filename)
 
     def save_keys(self):
-        print(self.public_key)
-        print(self.private_key)
+        with open(os.path.join(self.directory_name, self.filename), "wb") as private_keyfile:
+            private_keyfile.write(self.private_key.exportKey(format='DER'))
+        with open(os.path.join(self.directory_name, f"{self.filename}.pub"), "wb") as public_keyfile:
+            public_keyfile.write(self.public_key.exportKey(format='DER'))
+        return self.directory_name
 
     def init_directories(self):
-        # TODO: get path from user
         if not os.path.exists(self.directory_name):
             os.makedirs(self.directory_name)
-            os.makedirs(self.private_dir)
-            os.makedirs(self.public_dir)
-        else:
-            if not os.path.exists(self.public_dir):
-                os.makedirs(self.public_dir)
-            if not os.path.exists(self.private_dir):
-                os.makedirs(self.private_dir)
+
+    @staticmethod
+    def _getKeyLengthFrom(algorithm_name):
+        with open(os.path.join(os.getcwd(), "config.json")) as file:
+            config = json.load(file)
+            algorithms = config["algorithms"]["asymmetric"]
+            for key, value in algorithms.items():
+                if key == algorithm_name:
+                    return value
+        raise Exception("Not found such algorithm")

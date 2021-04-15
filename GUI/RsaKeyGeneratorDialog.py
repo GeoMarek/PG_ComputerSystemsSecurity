@@ -6,19 +6,20 @@ from PyQt5.QtWidgets import QDialog, QLineEdit, QComboBox, QDialogButtonBox, QVB
 from AsymmetricEncoding.RsaKeyGenerator import RsaKeyGenerator
 
 
-class AsymmetricKeyGenerationDialog(QDialog):
+class RsaKeyGeneratorDialog(QDialog):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self._setConfig()
 
         self.filename = QLineEdit()
         self.algorithm_combobox = QComboBox()
-        self._setConfig()
-        self._createFormGroupBox()
-        self.algorithm_combobox.addItems(self.configFile['algorithms']['asymmetric'])
+        algorithms = self.configFile.get("algorithms").get("asymmetric")
+        self.algorithm_combobox.addItems(algorithms)
 
+        self._createGroupFormBox()
         button_box = QDialogButtonBox(QDialogButtonBox.Save)
         button_box.button(QDialogButtonBox.Save).setText("Generate key")
-        button_box.accepted.connect(self.saveKeys)
+        button_box.accepted.connect(self._saveKeys)
         button_box.rejected.connect(self.reject)
 
         main_layout = QVBoxLayout()
@@ -28,38 +29,41 @@ class AsymmetricKeyGenerationDialog(QDialog):
         self.setLayout(main_layout)
         self.setWindowTitle("Asymmetric key generation")
 
-    def saveKeys(self):
-        if len(self.filename.text()) == 0:
-            self.messageNoFileNameTyped()
-            return
-        # TODO: add generation RSA keys
-        if existing_directory("Choose where to save your keys"):
-            rsa_generator = RsaKeyGenerator(
-                self.filename.text(),
-                self.algorithm_combobox.currentText())
+    def _setConfig(self):
+        with open(os.path.join(os.getcwd(), "config.json")) as file:
+            self.configFile = json.load(file)
 
-    def messageCreatedKeys(self):
-        msg = QMessageBox()
-        msg.setWindowTitle('Keys Generation')
-        msg.setText('Created and saved %s keys!' % self.algorithm_combobox.currentText())
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        msg.exec_()
-
-    def _createFormGroupBox(self):
+    def _createGroupFormBox(self):
         self.formGroupBox = QGroupBox("Creating asymmetric key")
         layout = QFormLayout()
         layout.addRow(QLabel("Key filename:"), self.filename)
         layout.addRow(QLabel("Algorithm:"), self.algorithm_combobox)
         self.formGroupBox.setLayout(layout)
 
-    def _setConfig(self):
-        with open(os.path.join(os.getcwd(), "config.json")) as file:
-            self.configFile = json.load(file)
+    def _saveKeys(self):
+        if len(self.filename.text()) == 0:
+            self.messageNoFileNameTyped()
+            return
+        dirpath = existing_directory("Choose where to save your keys")
+        key_name = self.filename.text()
+        algorithm = self.algorithm_combobox.currentText()
+        if dirpath:
+            generator = RsaKeyGenerator(dirpath, key_name, algorithm)
+            generator.init_directories()
+            dirpath = generator.save_keys()
+            self._messageCreatedKeys(dirpath)
 
     def reject(self):
         """To avoid closing on esc press"""
         pass
+
+    def _messageCreatedKeys(self, dirpath):
+        msg = QMessageBox()
+        msg.setWindowTitle('Keys Generation')
+        msg.setText(f"Created {self.algorithm_combobox.currentText()} keys in {dirpath}")
+        msg.setIcon(QMessageBox.Information)
+        msg.setStandardButtons(QMessageBox.Ok)
+        msg.exec_()
 
     @staticmethod
     def messageNoFileNameTyped():

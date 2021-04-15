@@ -2,7 +2,7 @@ import json
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QDialog
 import os
 
-from GUI.AsymmetricKeyGenerationDialog import AsymmetricKeyGenerationDialog
+from GUI.RsaKeyGeneratorDialog import RsaKeyGeneratorDialog
 
 
 class Window(QMainWindow):
@@ -16,8 +16,8 @@ class Window(QMainWindow):
         self._configWindow()
 
         vbox = QVBoxLayout()
-        vbox.addWidget(AsymmetricKeyGenerationDialog())
-        # TODO: what boxes need to add
+        vbox.addWidget(RsaKeyGeneratorDialog())
+        # TODO: here is place to add new widgets
 
         central = QWidget()
         central.setLayout(vbox)
