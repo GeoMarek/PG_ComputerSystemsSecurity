@@ -1,8 +1,9 @@
 import json
 import os
-
+from Utils.PyQt import existing_directory
 from PyQt5.QtWidgets import QDialog, QLineEdit, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
     QLabel, QMessageBox
+from AsymmetricEncoding.RsaKeyGenerator import RsaKeyGenerator
 
 
 class AsymmetricKeyGenerationDialog(QDialog):
@@ -31,6 +32,11 @@ class AsymmetricKeyGenerationDialog(QDialog):
         if len(self.filename.text()) == 0:
             self.messageNoFileNameTyped()
             return
+        # TODO: add generation RSA keys
+        if existing_directory("Choose where to save your keys"):
+            rsa_generator = RsaKeyGenerator(
+                self.filename.text(),
+                self.algorithm_combobox.currentText())
 
     def messageCreatedKeys(self):
         msg = QMessageBox()

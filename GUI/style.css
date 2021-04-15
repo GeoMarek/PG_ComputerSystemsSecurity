@@ -11,7 +11,7 @@ QDialog
     background-color: #161b22;
 }
 
-QComboBox {
+QComboBox, QDialog QLineEdit {
     color: #161b22
 }
 
@@ -21,10 +21,6 @@ QButtonBox {
     color: #b7d1d9
 }
 
-QDialog QLineEdit
-{
-    color: #161b22
-}
 
 QDialog QGroupBox, QDialog QLabel
 {

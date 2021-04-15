@@ -17,6 +17,7 @@ class Window(QMainWindow):
 
         vbox = QVBoxLayout()
         vbox.addWidget(AsymmetricKeyGenerationDialog())
+        # TODO: what boxes need to add
 
         central = QWidget()
         central.setLayout(vbox)
