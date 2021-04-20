@@ -3,17 +3,17 @@ import os
 from Utils.PyQt import existing_directory
 from PyQt5.QtWidgets import QDialog, QLineEdit, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
     QLabel, QMessageBox
-from AsymmetricEncoding.RsaKeyGenerator import RsaKeyGenerator
+from Encoding.AESKeyGenerator import AesKeyGenerator
 
 
-class RsaKeyGeneratorDialog(QDialog):
+class AesKeyGeneratorDialog(QDialog):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self._setConfig()
 
         self.filename = QLineEdit()
         self.algorithm_combobox = QComboBox()
-        algorithms = self.configFile.get("algorithms").get("asymmetric")
+        algorithms = self.configFile.get("algorithms").get("symmetric")
         self.algorithm_combobox.addItems(algorithms)
 
         self._createGroupFormBox()
@@ -27,14 +27,14 @@ class RsaKeyGeneratorDialog(QDialog):
         main_layout.addWidget(button_box)
 
         self.setLayout(main_layout)
-        self.setWindowTitle("Asymmetric key generation")
+        self.setWindowTitle("Symmetric key generation")
 
     def _setConfig(self):
         with open(os.path.join(os.getcwd(), "config.json")) as file:
             self.configFile = json.load(file)
 
     def _createGroupFormBox(self):
-        self.formGroupBox = QGroupBox("Creating asymmetric key")
+        self.formGroupBox = QGroupBox("Creating symmetric key")
         layout = QFormLayout()
         layout.addRow(QLabel("Key filename:"), self.filename)
         layout.addRow(QLabel("Algorithm:"), self.algorithm_combobox)
@@ -48,10 +48,8 @@ class RsaKeyGeneratorDialog(QDialog):
         key_name = self.filename.text()
         algorithm = self.algorithm_combobox.currentText()
         if dirpath:
-            generator = RsaKeyGenerator(dirpath, key_name, algorithm)
-            generator.init_directories()
-            dirpath = generator.save_keys()
-            self._messageCreatedKeys(dirpath)
+            # TODO: add call of AES algorithm
+            generator = AesKeyGenerator()
 
     def reject(self):
         """To avoid closing on esc press"""

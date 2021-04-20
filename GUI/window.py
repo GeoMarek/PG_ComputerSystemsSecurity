@@ -1,8 +1,9 @@
 import json
-from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QDialog
+from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout
 import os
 
-from GUI.RsaKeyGeneratorDialog import RsaKeyGeneratorDialog
+from GUI.RSAKeyGeneratorDialog import RsaKeyGeneratorDialog
+from GUI.AESKeyGeneratorDialog import AesKeyGeneratorDialog
 
 
 class Window(QMainWindow):
@@ -16,7 +17,10 @@ class Window(QMainWindow):
         self._configWindow()
 
         vbox = QVBoxLayout()
-        vbox.addWidget(RsaKeyGeneratorDialog())
+        hbox = QHBoxLayout()
+        hbox.addWidget(RsaKeyGeneratorDialog())
+        hbox.addWidget(AesKeyGeneratorDialog())
+        vbox.addLayout(hbox)
         # TODO: here is place to add new widgets
 
         central = QWidget()

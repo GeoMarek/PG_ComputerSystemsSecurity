@@ -19,8 +19,8 @@
         [
             "ECB",
             "CBC",
-            "CTR",
-            "CFB"
+            "CFB",
+            "OFB"
         ]
     }
 }
