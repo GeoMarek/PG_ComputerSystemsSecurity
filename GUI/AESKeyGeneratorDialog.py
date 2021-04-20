@@ -1,7 +1,6 @@
 import json
 import os
-from Utils.PyQt import existing_directory
-from PyQt5.QtWidgets import QDialog, QLineEdit, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
+from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
     QLabel, QMessageBox
 from Encoding.AESKeyGenerator import AesKeyGenerator
 
@@ -11,7 +10,7 @@ class AesKeyGeneratorDialog(QDialog):
         super().__init__(*args, **kwargs)
         self._setConfig()
 
-        self.filename = QLineEdit()
+        # TODO: is symm key name needed?
         self.algorithm_combobox = QComboBox()
         algorithms = self.configFile.get("algorithms").get("symmetric")
         self.algorithm_combobox.addItems(algorithms)
@@ -36,7 +35,6 @@ class AesKeyGeneratorDialog(QDialog):
     def _createGroupFormBox(self):
         self.formGroupBox = QGroupBox("Creating symmetric key")
         layout = QFormLayout()
-        layout.addRow(QLabel("Key filename:"), self.filename)
         layout.addRow(QLabel("Algorithm:"), self.algorithm_combobox)
         self.formGroupBox.setLayout(layout)
 
@@ -44,12 +42,8 @@ class AesKeyGeneratorDialog(QDialog):
         if len(self.filename.text()) == 0:
             self.messageNoFileNameTyped()
             return
-        dirpath = existing_directory("Choose where to save your keys")
-        key_name = self.filename.text()
         algorithm = self.algorithm_combobox.currentText()
-        if dirpath:
-            # TODO: add call of AES algorithm
-            generator = AesKeyGenerator()
+        generator = AesKeyGenerator(algorithm)
 
     def reject(self):
         """To avoid closing on esc press"""
@@ -60,14 +54,5 @@ class AesKeyGeneratorDialog(QDialog):
         msg.setWindowTitle('Keys Generation')
         msg.setText(f"Created {self.algorithm_combobox.currentText()} keys in {dirpath}")
         msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        msg.exec_()
-
-    @staticmethod
-    def messageNoFileNameTyped():
-        msg = QMessageBox()
-        msg.setWindowTitle('Warning')
-        msg.setText('Type filename first!')
-        msg.setIcon(QMessageBox.Warning)
         msg.setStandardButtons(QMessageBox.Ok)
         msg.exec_()

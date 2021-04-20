@@ -2,30 +2,24 @@ import json
 import os
 
 from Crypto.PublicKey import RSA
+from Utils.Path import init_dir
 
 
 class RsaKeyGenerator:
-    keys = {
-        "rsa1024": 1024,
-        "rsa2048": 2048
-    }
-
-    def __init__(self, dirpath, filename, algorithm):
+    def __init__(self, algorithm):
         self.private_key = RSA.generate(self._getKeyLengthFrom(algorithm))
         self.public_key = self.private_key.publickey()
-        self.filename = filename
-        self.directory_name = os.path.join(dirpath, filename)
+        self.filename = "my_rsa_key"
+        self.dirname = init_dir(os.path.join(os.getcwd(), "StoredData", "Asymmetric"))
+        self.priv_dir = init_dir(os.path.join(self.dirname, "private"))
+        self.public_dir = init_dir(os.path.join(self.dirname, "public"))
 
     def save_keys(self):
-        with open(os.path.join(self.directory_name, self.filename), "wb") as private_keyfile:
+        with open(os.path.join(self.priv_dir, self.filename), "wb") as private_keyfile:
             private_keyfile.write(self.private_key.exportKey(format='DER'))
-        with open(os.path.join(self.directory_name, f"{self.filename}.pub"), "wb") as public_keyfile:
+        with open(os.path.join(self.public_dir, f"{self.filename}.pub"), "wb") as public_keyfile:
             public_keyfile.write(self.public_key.exportKey(format='DER'))
-        return self.directory_name
-
-    def init_directories(self):
-        if not os.path.exists(self.directory_name):
-            os.makedirs(self.directory_name)
+        return self.dirname
 
     @staticmethod
     def _getKeyLengthFrom(algorithm_name):

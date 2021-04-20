@@ -1,4 +1,4 @@
-from PyQt5.QtWidgets import QFileDialog
+from PyQt5.QtWidgets import QFileDialog, QMessageBox
 
 
 def existing_directory(caption):
@@ -20,3 +20,21 @@ def save_file(caption):
     options |= QFileDialog.DontUseNativeDialog
     filename, _ = QFileDialog.getSaveFileName(None, caption=caption, options=options)
     return filename
+
+
+def msg_created_keys(dirpath):
+    msg = QMessageBox()
+    msg.setWindowTitle('Keys Generation')
+    msg.setText(f"Created keys in {dirpath}")
+    msg.setIcon(QMessageBox.Information)
+    msg.setStandardButtons(QMessageBox.Ok)
+    msg.exec_()
+
+
+def msg_no_filename():
+    msg = QMessageBox()
+    msg.setWindowTitle('Warning')
+    msg.setText('Type filename first!')
+    msg.setIcon(QMessageBox.Warning)
+    msg.setStandardButtons(QMessageBox.Ok)
+    msg.exec_()
