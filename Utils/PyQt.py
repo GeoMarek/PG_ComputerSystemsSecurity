@@ -31,10 +31,10 @@ def msg_created_keys(dirpath):
     msg.exec_()
 
 
-def msg_no_filename():
+def msg_no_filename(text):
     msg = QMessageBox()
     msg.setWindowTitle('Warning')
-    msg.setText('Type filename first!')
+    msg.setText(text)
     msg.setIcon(QMessageBox.Warning)
     msg.setStandardButtons(QMessageBox.Ok)
     msg.exec_()

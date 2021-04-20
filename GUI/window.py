@@ -1,6 +1,7 @@
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout
 import os
 
+from GUI.ConnectDialog import ConnectDialog
 from GUI.RSAKeyGeneratorDialog import RsaKeyGeneratorDialog
 from GUI.AESKeyGeneratorDialog import AesKeyGeneratorDialog
 from Utils.Path import init_config, init_style
@@ -17,9 +18,13 @@ class Window(QMainWindow):
         vbox = QVBoxLayout()
         hbox = QHBoxLayout()
 
+        # handle RSA key generation
         if not self.hasDirectoryRSA():
             rsa = RsaKeyGeneratorDialog()
             rsa.exec_()
+        # handle connection
+        ConnectDialog().exec_()
+
 
         vbox.addWidget(AesKeyGeneratorDialog())
         hbox.addLayout(vbox)
