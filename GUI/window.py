@@ -18,7 +18,9 @@ class Window(QMainWindow):
         hbox = QHBoxLayout()
 
         if not self.hasDirectoryRSA():
-            vbox.addWidget(RsaKeyGeneratorDialog())
+            rsa = RsaKeyGeneratorDialog()
+            rsa.exec_()
+
         vbox.addWidget(AesKeyGeneratorDialog())
         hbox.addLayout(vbox)
 
@@ -30,10 +32,10 @@ class Window(QMainWindow):
 
     def _configWindow(self):
         title = self.configFile["GUI"]["title"]
-        width = self.configFile["GUI"]["width"]
-        height = self.configFile["GUI"]["height"]
+        # width = self.configFile["GUI"]["width"]
+        # height = self.configFile["GUI"]["height"]
         self.setWindowTitle(title)
-        self.setFixedSize(width, height)
+        # self.setFixedSize(width, height)
 
     def hasDirectoryRSA(self):
         return os.path.exists(os.path.join(

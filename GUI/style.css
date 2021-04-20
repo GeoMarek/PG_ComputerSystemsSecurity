@@ -9,6 +9,14 @@ QMainWindow
 QDialog
 {
     background-color: #161b22;
+    min-width: 300px;
+    min-height: 200px;
+
+}
+
+QLabel
+{
+    max-height:100px;
 }
 
 QComboBox, QDialog QLineEdit {
