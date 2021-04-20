@@ -2,15 +2,16 @@ import json
 import os
 
 from Crypto.PublicKey import RSA
-from Utils.Path import init_dir
+from Utils.Path import init_dir, init_config
 
 
 class RsaKeyGenerator:
     def __init__(self, algorithm):
         self.private_key = RSA.generate(self._getKeyLengthFrom(algorithm))
         self.public_key = self.private_key.publickey()
+        self.config = init_config()
         self.filename = "my_rsa_key"
-        self.dirname = init_dir(os.path.join(os.getcwd(), "StoredData", "Asymmetric"))
+        self.dirname = self._initDirectories()
         self.priv_dir = init_dir(os.path.join(self.dirname, "private"))
         self.public_dir = init_dir(os.path.join(self.dirname, "public"))
 
@@ -30,3 +31,8 @@ class RsaKeyGenerator:
                 if key == algorithm_name:
                     return value
         raise Exception("Not found such algorithm")
+
+    def _initDirectories(self):
+        main_dir = self.config.get("directory").get("main_dir")
+        asym_dir = self.config.get("directory").get("asym_dir")
+        return init_dir(os.path.join(os.getcwd(), main_dir, asym_dir))

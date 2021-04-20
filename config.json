@@ -22,5 +22,11 @@
             "CFB",
             "OFB"
         ]
+    },
+    "directory":
+    {
+        "main_dir": "stored_data",
+        "asym_dir": "pki_keys",
+        "sym_dir": "session_keys"
     }
 }

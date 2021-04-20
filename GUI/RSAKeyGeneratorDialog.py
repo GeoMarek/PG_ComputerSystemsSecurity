@@ -1,15 +1,14 @@
-import json
-import os
 from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
     QLabel
 from Encoding.RSAKeyGenerator import RsaKeyGenerator
 from Utils.PyQt import msg_created_keys
+from Utils.Path import init_config
 
 
 class RsaKeyGeneratorDialog(QDialog):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._setConfig()
+        self.configFile = init_config()
 
         self.algorithm_combobox = QComboBox()
         algorithms = self.configFile.get("algorithms").get("asymmetric")
@@ -27,10 +26,6 @@ class RsaKeyGeneratorDialog(QDialog):
 
         self.setLayout(main_layout)
         self.setWindowTitle("Asymmetric key generation")
-
-    def _setConfig(self):
-        with open(os.path.join(os.getcwd(), "config.json")) as file:
-            self.configFile = json.load(file)
 
     def _createGroupFormBox(self):
         self.formGroupBox = QGroupBox("Creating asymmetric key")

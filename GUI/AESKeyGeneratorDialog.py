@@ -1,16 +1,15 @@
-import json
-import os
 from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
-    QLabel, QMessageBox
+    QLabel
 from Encoding.AESKeyGenerator import AesKeyGenerator
+from Utils.Path import init_config
+from Utils.PyQt import msg_created_keys
 
 
 class AesKeyGeneratorDialog(QDialog):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self._setConfig()
+        self.configFile = init_config()
 
-        # TODO: is symm key name needed?
         self.algorithm_combobox = QComboBox()
         algorithms = self.configFile.get("algorithms").get("symmetric")
         self.algorithm_combobox.addItems(algorithms)
@@ -28,10 +27,6 @@ class AesKeyGeneratorDialog(QDialog):
         self.setLayout(main_layout)
         self.setWindowTitle("Symmetric key generation")
 
-    def _setConfig(self):
-        with open(os.path.join(os.getcwd(), "config.json")) as file:
-            self.configFile = json.load(file)
-
     def _createGroupFormBox(self):
         self.formGroupBox = QGroupBox("Creating symmetric key")
         layout = QFormLayout()
@@ -39,20 +34,11 @@ class AesKeyGeneratorDialog(QDialog):
         self.formGroupBox.setLayout(layout)
 
     def _saveKeys(self):
-        if len(self.filename.text()) == 0:
-            self.messageNoFileNameTyped()
-            return
         algorithm = self.algorithm_combobox.currentText()
         generator = AesKeyGenerator(algorithm)
+        filename = generator.save_session_key()
+        msg_created_keys(filename)
 
     def reject(self):
         """To avoid closing on esc press"""
         pass
-
-    def _messageCreatedKeys(self, dirpath):
-        msg = QMessageBox()
-        msg.setWindowTitle('Keys Generation')
-        msg.setText(f"Created {self.algorithm_combobox.currentText()} keys in {dirpath}")
-        msg.setIcon(QMessageBox.Information)
-        msg.setStandardButtons(QMessageBox.Ok)
-        msg.exec_()
