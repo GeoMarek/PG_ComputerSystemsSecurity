@@ -2,7 +2,7 @@ from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, Q
     QLabel
 from Encoding.AESKeyGenerator import AesKeyGenerator
 from Utils.Path import init_config
-from Utils.PyQt import msg_created_keys
+from Utils.PyQt import msg_success
 
 
 class AesKeyGeneratorDialog(QDialog):
@@ -37,7 +37,7 @@ class AesKeyGeneratorDialog(QDialog):
         algorithm = self.algorithm_combobox.currentText()
         generator = AesKeyGenerator(algorithm)
         filename = generator.save_session_key()
-        msg_created_keys(filename)
+        msg_success(f"Created keys as {filename}")
 
     def reject(self):
         """To avoid closing on esc press"""

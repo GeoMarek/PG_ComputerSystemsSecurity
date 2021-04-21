@@ -2,8 +2,8 @@ from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout
 import os
 
 from GUI.ConnectDialog import ConnectDialog
+from GUI.MessageSenderDialog import MessageSenderDialog
 from GUI.RSAKeyGeneratorDialog import RsaKeyGeneratorDialog
-from GUI.AESKeyGeneratorDialog import AesKeyGeneratorDialog
 from Utils.Path import init_config, init_style
 
 
@@ -23,11 +23,10 @@ class Window(QMainWindow):
         # handle connection
         ConnectDialog().exec_()
 
-
-
+        # main window config
         vbox = QVBoxLayout()
         hbox = QHBoxLayout()
-        vbox.addWidget(AesKeyGeneratorDialog())
+        vbox.addWidget(MessageSenderDialog())
         hbox.addLayout(vbox)
 
         # TODO: here is place to add new widgets
@@ -38,10 +37,7 @@ class Window(QMainWindow):
 
     def _configWindow(self):
         title = self.configFile["GUI"]["title"]
-        # width = self.configFile["GUI"]["width"]
-        # height = self.configFile["GUI"]["height"]
         self.setWindowTitle(title)
-        # self.setFixedSize(width, height)
 
     def hasDirectoryRSA(self):
         return os.path.exists(os.path.join(

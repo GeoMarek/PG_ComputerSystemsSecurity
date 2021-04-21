@@ -22,28 +22,21 @@ def save_file(caption):
     return filename
 
 
-def msg_created_keys(dirpath):
+def msg_success(text, title="Successful"):
     msg = QMessageBox()
-    msg.setWindowTitle('Keys Generation')
-    msg.setText(f"Created keys in {dirpath}")
+    msg.setWindowTitle(title)
+    msg.setText(text)
     msg.setIcon(QMessageBox.Information)
     msg.setStandardButtons(QMessageBox.Ok)
     msg.exec_()
 
 
-def msg_no_filename(text):
+def msg_warning(text, title="Warning"):
     msg = QMessageBox()
-    msg.setWindowTitle('Warning')
+    msg.setWindowTitle(title)
     msg.setText(text)
     msg.setIcon(QMessageBox.Warning)
     msg.setStandardButtons(QMessageBox.Ok)
     msg.exec_()
 
 
-def msg_connected(text):
-    msg = QMessageBox()
-    msg.setWindowTitle('Connect successful')
-    msg.setText(f"Successfully connected to '{text}'.\nPublic keys have been exchanged")
-    msg.setIcon(QMessageBox.Information)
-    msg.setStandardButtons(QMessageBox.Ok)
-    msg.exec_()

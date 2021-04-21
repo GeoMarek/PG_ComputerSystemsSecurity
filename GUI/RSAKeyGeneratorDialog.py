@@ -2,7 +2,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
     QLabel
 from Encoding.RSAKeyGenerator import RsaKeyGenerator
-from Utils.PyQt import msg_created_keys
+from Utils.PyQt import msg_success
 from Utils.Path import init_config, init_style
 
 
@@ -47,7 +47,7 @@ class RsaKeyGeneratorDialog(QDialog):
         algorithm = self.algorithm_combobox.currentText()
         generator = RsaKeyGenerator(algorithm)
         dirname = generator.save_keys()
-        msg_created_keys(dirname)
+        msg_success(f"Created keys in {dirname}", title="RSA key generation")
         self.done(0)
 
     def reject(self):

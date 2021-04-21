@@ -2,7 +2,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
     QLabel, QLineEdit
 from Utils.Path import init_config, init_style
-from Utils.PyQt import msg_no_filename, msg_connected
+from Utils.PyQt import msg_warning, msg_success
 
 
 class ConnectDialog(QDialog):
@@ -39,13 +39,13 @@ class ConnectDialog(QDialog):
     def _connect(self):
         address = self.filename.text()
         if len(address) == 0:
-            msg_no_filename("You need to specify address")
+            msg_warning("You need to specify address", title="Empty address field")
             return
         elif address in ["ok", "Ok", "OK"]:
-            msg_connected(address)
+            msg_success(f"Successful connect to '{address}'", title="Connected")
             self.done(0)
         else:
-            msg_no_filename("Something went wrong. Try again.")
+            msg_warning("Something went wrong. Try again.")
             return
 
     def reject(self):
