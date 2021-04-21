@@ -15,17 +15,18 @@ class Window(QMainWindow):
         self.setStyleSheet(init_style())
         self._configWindow()
 
-        vbox = QVBoxLayout()
-        hbox = QHBoxLayout()
-
         # handle RSA key generation
         if not self.hasDirectoryRSA():
             rsa = RsaKeyGeneratorDialog()
             rsa.exec_()
+
         # handle connection
         ConnectDialog().exec_()
 
 
+
+        vbox = QVBoxLayout()
+        hbox = QHBoxLayout()
         vbox.addWidget(AesKeyGeneratorDialog())
         hbox.addLayout(vbox)
 

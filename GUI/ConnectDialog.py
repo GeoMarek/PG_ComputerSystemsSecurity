@@ -2,7 +2,7 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QGroupBox, QFormLayout, \
     QLabel, QLineEdit
 from Utils.Path import init_config, init_style
-from Utils.PyQt import msg_no_filename
+from Utils.PyQt import msg_no_filename, msg_connected
 
 
 class ConnectDialog(QDialog):
@@ -37,12 +37,16 @@ class ConnectDialog(QDialog):
         self.formGroupBox.setLayout(layout)
 
     def _connect(self):
-        if len(self.filename.text()) == 0:
+        address = self.filename.text()
+        if len(address) == 0:
             msg_no_filename("You need to specify address")
             return
-        address = self.filename.text()
-        # TODO: here call net magic
-        self.done(0)
+        elif address in ["ok", "Ok", "OK"]:
+            msg_connected(address)
+            self.done(0)
+        else:
+            msg_no_filename("Something went wrong. Try again.")
+            return
 
     def reject(self):
         """To avoid closing on esc press"""

@@ -38,3 +38,12 @@ def msg_no_filename(text):
     msg.setIcon(QMessageBox.Warning)
     msg.setStandardButtons(QMessageBox.Ok)
     msg.exec_()
+
+
+def msg_connected(text):
+    msg = QMessageBox()
+    msg.setWindowTitle('Connect successful')
+    msg.setText(f"Successfully connected to '{text}'.\nPublic keys have been exchanged")
+    msg.setIcon(QMessageBox.Information)
+    msg.setStandardButtons(QMessageBox.Ok)
+    msg.exec_()
