@@ -20,25 +20,16 @@ class MessageSenderDialog(QDialog):
         layout = QFormLayout()
         layout.addRow(QLabel("Algorithm:"), self.algorithm_combobox)
         layout.addRow(QLabel("Message:"), self.message)
-        self.formGroupBox.setLayout(layout)
 
+        self.formGroupBox.setLayout(layout)
         self.button_box = QDialogButtonBox(QDialogButtonBox.Save)
         self.button_box.button(QDialogButtonBox.Save).setText("Send")
         self.button_box.accepted.connect(self._sendMessage)
         self.button_box.rejected.connect(self.reject)
-
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.formGroupBox)
         main_layout.addWidget(self.button_box)
-
         self.setLayout(main_layout)
-
-    def _createGroupFormBox(self):
-        self.formGroupBox = QGroupBox("Sending message")
-        layout = QFormLayout()
-        layout.addRow(QLabel("Algorithm:"), self.algorithm_combobox)
-        layout.addRow(QLabel("Message:"), self.message)
-        self.formGroupBox.setLayout(layout)
 
     def _sendMessage(self):
         text = self.message.text()

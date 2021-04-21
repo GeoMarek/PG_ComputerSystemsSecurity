@@ -3,6 +3,7 @@ import os
 
 from GUI.ConnectDialog import ConnectDialog
 from GUI.MessageSenderDialog import MessageSenderDialog
+from GUI.FileSenderDialog import FileSenderDialog
 from GUI.RSAKeyGeneratorDialog import RsaKeyGeneratorDialog
 from Utils.Path import init_config, init_style
 
@@ -27,6 +28,7 @@ class Window(QMainWindow):
         vbox = QVBoxLayout()
         hbox = QHBoxLayout()
         vbox.addWidget(MessageSenderDialog())
+        vbox.addWidget(FileSenderDialog())
         hbox.addLayout(vbox)
 
         # TODO: here is place to add new widgets
