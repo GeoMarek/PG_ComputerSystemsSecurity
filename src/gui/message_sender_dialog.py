@@ -4,8 +4,8 @@ Module with gui class using to send messages
 
 from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel, QLineEdit
-from utils.py_qt import msg_success, msg_warning
-from utils.path import init_config, init_style
+from src.utils.py_qt import msg_success, msg_warning
+from src.utils.path import init_config, init_style
 
 
 class MessageSenderDialog(QDialog):

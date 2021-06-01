@@ -5,8 +5,8 @@ Module with gui class using to connect with someone
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel, QLineEdit
-from utils.path import init_config, init_style
-from utils.py_qt import msg_warning, msg_success
+from src.utils.path import init_config, init_style
+from src.utils.py_qt import msg_warning, msg_success
 
 
 class ConnectDialog(QDialog):
