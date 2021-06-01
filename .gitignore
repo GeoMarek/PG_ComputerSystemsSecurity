@@ -1,8 +1,4 @@
-# Default ignored files
-/shelf/
-/workspace.xml
-
 /.idea
-/*/__pycache__
-
-/stored_data
+virtual_env/
+__pycache__/
+stored_data/
