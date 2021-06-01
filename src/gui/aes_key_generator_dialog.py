@@ -4,9 +4,9 @@ Module with gui to generate RSA keys
 
 from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel
-from key_generators.aes_key_generators import AesKeyGenerator
-from utils.path import init_config
-from utils.py_qt import msg_success
+from src.key_generators.aes_key_generators import AesKeyGenerator
+from src.utils.path import init_config
+from src.utils.py_qt import msg_success
 
 
 class AesKeyGeneratorDialog(QDialog):

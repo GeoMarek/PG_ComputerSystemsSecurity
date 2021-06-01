@@ -5,11 +5,11 @@ Module representing app main window
 import os
 
 from PyQt5.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout
-from gui.connect_dialog import ConnectDialog
-from gui.message_sender_dialog import MessageSenderDialog
-from gui.file_sender_dialog import FileSenderDialog
-from gui.rsa_key_generator_dialog import RsaKeyGeneratorDialog
-from utils.path import init_config, init_style
+from src.gui.connect_dialog import ConnectDialog
+from src.gui.message_sender_dialog import MessageSenderDialog
+from src.gui.file_sender_dialog import FileSenderDialog
+from src.gui.rsa_key_generator_dialog import RsaKeyGeneratorDialog
+from src.utils.path import init_config, init_style
 
 
 class Window(QMainWindow):
