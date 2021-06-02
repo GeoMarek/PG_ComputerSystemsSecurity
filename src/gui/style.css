@@ -29,6 +29,11 @@ QButtonBox {
     font-family: Arial;
     color: #b7d1d9
 }
+QTextEdit
+{
+    background-color: #0d1117;
+    color: #b7d1d9;
+}
 
 
 QDialog QGroupBox, QDialog QLabel

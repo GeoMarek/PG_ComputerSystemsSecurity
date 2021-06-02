@@ -17,6 +17,7 @@ class ConnectDialog(QDialog):
         super().__init__(*args, **kwargs)
         self.config_file = init_config()
         self.setStyleSheet(init_style())
+        self.host_addres = None
         self.label = QLabel()
         self.label.setAlignment(QtCore.Qt.AlignVCenter)
         self.label.setText("To send messages and file to \n"
@@ -56,7 +57,14 @@ class ConnectDialog(QDialog):
         if address in ["ok", "Ok", "OK"]:
             msg_success(f"Successful connect to '{address}'", title="Connected")
             self.done(0)
+            self.host_addres = "Odbiorca"
             # call connect class
             return None
         msg_warning("Something went wrong. Try again.")
         return None
+
+    def get_host_adress(self) -> str:
+        """
+        Get address you were connected to
+        """
+        return self.host_addres

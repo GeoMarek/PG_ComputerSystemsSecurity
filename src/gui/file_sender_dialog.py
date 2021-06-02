@@ -7,6 +7,7 @@ import os
 from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel, QLineEdit, QPushButton, QFileDialog
 
+from src.gui.listener_dialog import ListenerDialog
 from src.utils.path import init_config, init_style
 from src.utils.py_qt import msg_success, msg_warning
 
@@ -15,8 +16,9 @@ class FileSenderDialog(QDialog):
     """
     gui for send files
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, chat: ListenerDialog, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.chat = chat
         self.config_file = init_config()
         self.setStyleSheet(init_style())
         self.path = ""
@@ -57,8 +59,8 @@ class FileSenderDialog(QDialog):
             msg_warning("You did not select a file")
             return None
         msg_success(f"Send {text} in {mode}")
+        self.chat.log_sent_message(self.filename.text())
         self.filename.setText("")
         self.path = ""
         # call file sender
-        # call chat printer
         return None
