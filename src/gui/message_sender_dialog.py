@@ -6,8 +6,8 @@ from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, Q
     QFormLayout, QLabel, QLineEdit
 
 from src.gui.listener_dialog import ListenerDialog
-from src.utils.py_qt import msg_success, msg_warning
-from src.utils.path import init_config, init_style
+from src.logic.utils.py_qt import msg_success, msg_warning
+from src.logic.utils.path import init_config, init_style
 
 
 class MessageSenderDialog(QDialog):

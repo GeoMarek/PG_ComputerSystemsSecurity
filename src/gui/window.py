@@ -10,7 +10,7 @@ from src.gui.listener_dialog import ListenerDialog
 from src.gui.message_sender_dialog import MessageSenderDialog
 from src.gui.file_sender_dialog import FileSenderDialog
 from src.gui.rsa_key_generator_dialog import RsaKeyGeneratorDialog
-from src.utils.path import init_config, init_style
+from src.logic.utils.path import init_config, init_style
 
 
 class Window(QMainWindow):

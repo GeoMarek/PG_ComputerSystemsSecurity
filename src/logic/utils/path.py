@@ -28,5 +28,5 @@ def init_style() -> str:
     """
     Read data from 'style.css' and return this data
     """
-    with open(os.path.join(os.getcwd(), "style.css")) as styles:
+    with open(os.path.join(os.getcwd(), "gui", "style.css")) as styles:
         return styles.read()

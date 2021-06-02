@@ -8,8 +8,9 @@ from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, Q
     QFormLayout, QLabel, QLineEdit, QPushButton, QFileDialog
 
 from src.gui.listener_dialog import ListenerDialog
-from src.utils.path import init_config, init_style
-from src.utils.py_qt import msg_success, msg_warning
+from src.gui.progress_bar import ProgressBarDialog
+from src.logic.utils.path import init_config, init_style
+from src.logic.utils.py_qt import msg_success, msg_warning
 
 
 class FileSenderDialog(QDialog):
@@ -58,9 +59,11 @@ class FileSenderDialog(QDialog):
         if len(text) < 1:
             msg_warning("You did not select a file")
             return None
-        msg_success(f"Send {text} in {mode}")
+        # msg_success(f"Send {text} in {mode}")
         self.chat.log_sent_message(self.filename.text())
         self.filename.setText("")
         self.path = ""
+        bar = ProgressBarDialog()
+
         # call file sender
         return None

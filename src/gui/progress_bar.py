@@ -1,52 +1,39 @@
 import sys
-import time
-from PyQt5.QtCore import QThread, pyqtSignal
-from PyQt5.QtWidgets import QWidget, QPushButton, QProgressBar, QVBoxLayout, QApplication
 
-from src.utils.path import init_style
+from PyQt5.QtWidgets import QWidget, QProgressBar, QVBoxLayout, QApplication, QDialog
 
 
-class SendingFileThread(QThread):
-    signal = pyqtSignal(int)
+from src.logic.threads.copy_file_thread import CopyFileThread
+# TODO: change to QProgressDialog
 
-    def __init__(self, path: str):
-        super(SendingFileThread, self).__init__()
-        self.path = path
-
-    def run(self):
-        for i in range(100):
-            time.sleep(0.1)
-            self.signal.emit(i)
-
-
-class ProgressBar(QWidget):
+class ProgressBarDialog(QDialog):
     def __init__(self):
         super().__init__()
-        self.setStyleSheet(init_style())
-        self.setWindowTitle('Sending file')
-        self.thread = SendingFileThread()
+        self.setWindowTitle("Sending file")
+        self.thread = None
         self.pbar = QProgressBar(self)
         self.pbar.setValue(0)
         self.resize(300, 100)
         self.vbox = QVBoxLayout()
         self.vbox.addWidget(self.pbar)
         self.setLayout(self.vbox)
-        self.show()
         self.btnFunc()
 
     def btnFunc(self):
+        self.thread = CopyFileThread("")
         self.thread.signal.connect(self.signal_accept)
         self.thread.start()
-        # self.btn.setEnabled(False)
+        self.show()
+        self.thread.wait()
 
     def signal_accept(self, msg):
         self.pbar.setValue(int(msg))
         if self.pbar.value() == 99:
-            self.close()
+            print("koniec")
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    ex = ProgressBar()
+    ex = ProgressBarDialog()
     ex.show()
     sys.exit(app.exec_())

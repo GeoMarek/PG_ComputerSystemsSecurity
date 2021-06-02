@@ -9,7 +9,7 @@ import string
 
 from Crypto.Cipher import AES
 from Crypto import Random
-from src.utils.path import init_directory, init_config
+from src.logic.utils.path import init_directory, init_config
 
 
 class AesKeyGenerator:  # pylint: disable=too-few-public-methods

@@ -2,7 +2,7 @@
 Module with gui class using to show chat
 """
 from PyQt5.QtWidgets import QTextEdit
-from src.utils.path import init_config, init_style
+from src.logic.utils.path import init_config, init_style
 
 
 class ListenerDialog(QTextEdit):
