@@ -58,8 +58,7 @@ class FileSenderDialog(QDialog):
             return None
         msg_success(f"Send {text} in {mode}")
         self.filename.setText("")
-        # TODO: clear path (after sending, empty path send last file again)
-        # self.message.
+        self.path = ""
         # call file sender
         # call chat printer
         return None
