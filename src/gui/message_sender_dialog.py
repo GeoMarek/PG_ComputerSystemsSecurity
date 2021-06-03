@@ -4,16 +4,19 @@ Module with gui class using to send messages
 
 from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel, QLineEdit
-from src.utils.py_qt import msg_success, msg_warning
-from src.utils.path import init_config, init_style
+
+from src.gui.listener_dialog import ListenerDialog
+from src.logic.utils.py_qt import msg_success, msg_warning
+from src.logic.utils.path import init_config, init_style
 
 
 class MessageSenderDialog(QDialog):
     """
     gui for send messages
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, chat: ListenerDialog, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.chat = chat
         self.config_file = init_config()
         self.setStyleSheet(init_style())
         self.form_group_box = QGroupBox("Sending messages")
@@ -44,7 +47,7 @@ class MessageSenderDialog(QDialog):
             msg_warning("Message is empty")
             return None
         msg_success(f"Send {text} in {mode}")
+        self.chat.log_sent_message(text)
         self.message.setText("")
         # call message sender
-        # call chat printer
         return None
