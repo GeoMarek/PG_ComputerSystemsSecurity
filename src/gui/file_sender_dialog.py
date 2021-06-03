@@ -59,11 +59,10 @@ class FileSenderDialog(QDialog):
         if len(text) < 1:
             msg_warning("You did not select a file")
             return None
-        # msg_success(f"Send {text} in {mode}")
+        ProgressBarDialog()
+        # call file sender, maybe as arg in progress bar
+        msg_success(f"Send {text} in {mode}")
         self.chat.log_sent_message(self.filename.text())
         self.filename.setText("")
         self.path = ""
-        bar = ProgressBarDialog()
-
-        # call file sender
         return None

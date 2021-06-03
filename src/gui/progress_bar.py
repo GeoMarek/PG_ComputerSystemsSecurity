@@ -1,39 +1,32 @@
-import sys
+"""
+Module with gui class of progress bar
+"""
+import time
 
-from PyQt5.QtWidgets import QWidget, QProgressBar, QVBoxLayout, QApplication, QDialog
+from PyQt5.QtWidgets import QDialog, QProgressBar, qApp
 
-
-from src.logic.threads.copy_file_thread import CopyFileThread
-# TODO: change to QProgressDialog
 
 class ProgressBarDialog(QDialog):
+    """
+    Progress bar dialog
+    """
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Sending file")
-        self.thread = None
-        self.pbar = QProgressBar(self)
-        self.pbar.setValue(0)
-        self.resize(300, 100)
-        self.vbox = QVBoxLayout()
-        self.vbox.addWidget(self.pbar)
-        self.setLayout(self.vbox)
-        self.btnFunc()
-
-    def btnFunc(self):
-        self.thread = CopyFileThread("")
-        self.thread.signal.connect(self.signal_accept)
-        self.thread.start()
+        self.progress = QProgressBar(self)
+        self.progress.setGeometry(15, 15, 300, 25)
+        self.progress.setMaximum(100)
         self.show()
-        self.thread.wait()
+        qApp.processEvents()
+        self.updateProgress()
+        self.close()
 
-    def signal_accept(self, msg):
-        self.pbar.setValue(int(msg))
-        if self.pbar.value() == 99:
-            print("koniec")
-
-
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    ex = ProgressBarDialog()
-    ex.show()
-    sys.exit(app.exec_())
+    def updateProgress(self) -> None:
+        """
+        Method to update progress bar
+        """
+        count = 0
+        while count < 100:
+            count += 1
+            time.sleep(0.1)
+            self.progress.setValue(count)
