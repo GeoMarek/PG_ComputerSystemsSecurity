@@ -30,3 +30,15 @@ def init_style() -> str:
     """
     with open(os.path.join(os.getcwd(), "gui", "style.css")) as styles:
         return styles.read()
+
+
+def init_storing_directory() -> str:
+    """
+    Init and return direcotry for storing received files
+    """
+    config = init_config()
+    directory = os.path.join(
+        os.getcwd(),
+        config.get("directory").get("main_dir"),
+        config.get("directory").get("rec_dir"))
+    return init_directory(directory)

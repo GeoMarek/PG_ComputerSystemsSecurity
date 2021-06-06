@@ -25,11 +25,11 @@ class Window(QMainWindow):
         self._handle_rsa_storing()
 
         # init all widgets
-        connection_dialog = ConnectDialog()
-        connection_dialog.exec_()
-        chat_printer = ListenerDialog(connection_dialog.get_host_adress())
-        message_sender = MessageSenderDialog(chat=chat_printer)
-        file_sender = FileSenderDialog(chat=chat_printer)
+        tcp_connect = ConnectDialog()
+        tcp_connect.exec_()
+        chat_printer = ListenerDialog(tcp_connect.get_host_adress(), socket=tcp_connect.end_point)
+        message_sender = MessageSenderDialog(chat=chat_printer, socket=tcp_connect.end_point)
+        file_sender = FileSenderDialog(chat=chat_printer, socket=tcp_connect.end_point)
 
         # put widgets in window
         vbox = QVBoxLayout()

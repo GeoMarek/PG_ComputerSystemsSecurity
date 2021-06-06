@@ -8,18 +8,19 @@ from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, Q
     QFormLayout, QLabel, QLineEdit, QPushButton, QFileDialog
 
 from src.gui.listener_dialog import ListenerDialog
-from src.gui.progress_bar import ProgressBarDialog
 from src.logic.utils.path import init_config, init_style
 from src.logic.utils.py_qt import msg_success, msg_warning
+from src.logic.utils.connection import send_file_by
 
 
 class FileSenderDialog(QDialog):
     """
     gui for send files
     """
-    def __init__(self, chat: ListenerDialog, *args, **kwargs):
+    def __init__(self, chat: ListenerDialog, socket, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.chat = chat
+        self.socket = socket
         self.config_file = init_config()
         self.setStyleSheet(init_style())
         self.path = ""
@@ -59,8 +60,8 @@ class FileSenderDialog(QDialog):
         if len(text) < 1:
             msg_warning("You did not select a file")
             return None
-        ProgressBarDialog()
-        # call file sender, maybe as arg in progress bar
+        self.socket.sendall("f".encode('utf-8'))
+        send_file_by(self.socket, self.path)
         msg_success(f"Send {text} in {mode}")
         self.chat.log_sent_message(self.filename.text())
         self.filename.setText("")

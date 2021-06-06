@@ -27,6 +27,7 @@
     {
         "main_dir": "stored_data",
         "asym_dir": "pki_keys",
-        "sym_dir": "session_keys"
+        "sym_dir": "session_keys",
+        "rec_dir": "received_files"
     }
 }
