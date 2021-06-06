@@ -8,15 +8,17 @@ from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, Q
 from src.gui.listener_dialog import ListenerDialog
 from src.logic.utils.py_qt import msg_success, msg_warning
 from src.logic.utils.path import init_config, init_style
+from src.logic.utils.connection import send_message_by
 
 
 class MessageSenderDialog(QDialog):
     """
     gui for send messages
     """
-    def __init__(self, chat: ListenerDialog, *args, **kwargs):
+    def __init__(self, chat: ListenerDialog, socket, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.chat = chat
+        self.socket = socket
         self.config_file = init_config()
         self.setStyleSheet(init_style())
         self.form_group_box = QGroupBox("Sending messages")
@@ -46,8 +48,9 @@ class MessageSenderDialog(QDialog):
         if len(text) < 1:
             msg_warning("Message is empty")
             return None
+        self.socket.sendall("m".encode('utf-8'))
+        send_message_by(self.socket, text)
         msg_success(f"Send {text} in {mode}")
         self.chat.log_sent_message(text)
         self.message.setText("")
-        # call message sender
         return None
