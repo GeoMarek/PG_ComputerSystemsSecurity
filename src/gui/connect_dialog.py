@@ -1,10 +1,14 @@
 """
 Module with gui class using to connect with someone
 """
+import socket
+import threading
 
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel, QLineEdit
+
+from src.utils.connection import handle_connection
 from src.utils.path import init_config, init_style
 from src.utils.py_qt import msg_warning, msg_success
 
@@ -53,10 +57,24 @@ class ConnectDialog(QDialog):
         if len(address) == 0:
             msg_warning("You need to specify address", title="Empty address field")
             return None
-        if address in ["ok", "Ok", "OK"]:
+        address_tuple = (address, 5050)
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # robimy socketa
+        result_of_check = s.connect_ex(address_tuple)  # sprawdzamy czy możemy się połączyć z podanym addresem
+        if result_of_check == 0:  # udało sie połączyć
+            print("Port is open so we connected")
+            handle_connection(s)
             msg_success(f"Successful connect to '{address}'", title="Connected")
             self.done(0)
-            # call connect class
             return None
-        msg_warning("Something went wrong. Try again.")
-        return None
+        else:
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            print("Port is not open; lets create server")
+            s.bind(address_tuple)
+            s.listen()
+            # TODO: poprawic czekanie na polaczenie, zeby sie nie wieszalo okno
+            s2, not_my_addr = s.accept()
+            thread = threading.Thread(target=handle_connection, args=(s2,))
+            thread.start()
+            msg_success(f"Someone connected to me", title="Connected")
+            self.done(0)
+            return None
