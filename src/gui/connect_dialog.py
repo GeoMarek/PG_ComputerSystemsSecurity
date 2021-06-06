@@ -9,8 +9,8 @@ from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel, QLineEdit
 
 from src.utils.connection import handle_connection
-from src.utils.path import init_config, init_style
-from src.utils.py_qt import msg_warning, msg_success
+from src.logic.utils.path import init_config, init_style
+from src.logic.utils.py_qt import msg_warning, msg_success
 
 
 class ConnectDialog(QDialog):
@@ -21,6 +21,7 @@ class ConnectDialog(QDialog):
         super().__init__(*args, **kwargs)
         self.config_file = init_config()
         self.setStyleSheet(init_style())
+        self.host_addres = None
         self.label = QLabel()
         self.label.setAlignment(QtCore.Qt.AlignVCenter)
         self.label.setText("To send messages and file to \n"
@@ -78,3 +79,9 @@ class ConnectDialog(QDialog):
             msg_success(f"Someone connected to me", title="Connected")
             self.done(0)
             return None
+
+    def get_host_adress(self) -> str:
+        """
+        Get address you were connected to
+        """
+        return self.host_addres

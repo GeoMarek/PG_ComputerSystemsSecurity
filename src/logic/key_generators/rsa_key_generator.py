@@ -4,7 +4,7 @@ Module with logic for generating RSA Keys
 import os
 
 from Crypto.PublicKey import RSA
-from src.utils.path import init_directory, init_config
+from src.logic.utils.path import init_directory, init_config
 
 
 class RsaKeyGenerator:  # pylint: disable=too-few-public-methods

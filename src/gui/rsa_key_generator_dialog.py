@@ -5,9 +5,9 @@ Module with gui to generate RSA keys
 from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QComboBox, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel
-from src.key_generators.rsa_key_generator import RsaKeyGenerator
-from src.utils.py_qt import msg_success
-from src.utils.path import init_config, init_style
+from src.logic.key_generators.rsa_key_generator import RsaKeyGenerator
+from src.logic.utils.py_qt import msg_success
+from src.logic.utils.path import init_config, init_style
 
 
 class RsaKeyGeneratorDialog(QDialog):
