@@ -57,8 +57,9 @@ class RsaKeyGeneratorDialog(QDialog):
             msg_warning("Password is empty")
             return None
         _hash = get_hash_from(self.password.text())
-        # TODO: encrypt private key with CBC (key = _hash)
-        algorithm = self.algorithm_combobox.currentText()
-        dirname = RsaKeyGenerator(algorithm).save_keys()
+        print(_hash)
+        # TODO: FEATURE szyfrujemy private key i hash będzie kluczem
+        # save_keys() zapisuje klucze jawnie, prywatny trzeba zaszyfrować
+        dirname = RsaKeyGenerator(self.algorithm_combobox.currentText()).save_keys()
         msg_success(f"Created keys in {dirname}", title="RSA key generation")
         self.done(0)
