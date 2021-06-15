@@ -9,6 +9,7 @@ from src.gui.connect_dialog import ConnectDialog
 from src.gui.listener_dialog import ListenerDialog
 from src.gui.message_sender_dialog import MessageSenderDialog
 from src.gui.file_sender_dialog import FileSenderDialog
+from src.gui.password_input import PasswordInput
 from src.gui.rsa_key_generator_dialog import RsaKeyGeneratorDialog
 from src.logic.utils.path import init_config, init_style
 
@@ -22,14 +23,23 @@ class Window(QMainWindow):
         self.config_file = init_config()
         self.setStyleSheet(init_style())
         self.setWindowTitle(self.config_file.get("GUI").get("title"))
+
+        # rsa key generator
         self._handle_rsa_storing()
 
+        # type user friendly password
+        password_input = PasswordInput()
+        password_input.exec_()
+        private_key_bytes = password_input.get_key_bytes()
+
+        # connect with someone
+        connect_dialog = ConnectDialog()
+        connect_dialog.exec_()
+
         # init all widgets
-        tcp_connect = ConnectDialog()
-        tcp_connect.exec_()
-        chat_printer = ListenerDialog(tcp_connect.get_host_adress(), socket=tcp_connect.end_point)
-        message_sender = MessageSenderDialog(chat=chat_printer, socket=tcp_connect.end_point)
-        file_sender = FileSenderDialog(chat=chat_printer, socket=tcp_connect.end_point)
+        listener_dialog = ListenerDialog(connect_dialog.get_host_adress(), socket=connect_dialog.end_point)
+        message_sender = MessageSenderDialog(chat=listener_dialog, socket=connect_dialog.end_point)
+        file_sender = FileSenderDialog(chat=listener_dialog, socket=connect_dialog.end_point)
 
         # put widgets in window
         vbox = QVBoxLayout()
@@ -37,7 +47,7 @@ class Window(QMainWindow):
         vbox.addWidget(message_sender)
         vbox.addWidget(file_sender)
         hbox.addLayout(vbox)
-        hbox.addWidget(chat_printer)
+        hbox.addWidget(listener_dialog)
         central = QWidget()
         central.setLayout(hbox)
         self.setCentralWidget(central)
