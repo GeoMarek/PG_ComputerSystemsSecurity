@@ -61,7 +61,7 @@ class FileSenderDialog(QDialog):
             msg_warning("You did not select a file")
             return None
         self.socket.sendall("f".encode('utf-8'))
-        send_file_by(self.socket, self.path)
+        send_file_by(self.socket, self.path, self.algorithm_combobox.currentText())
         msg_success(f"Send {text} in {mode}")
         self.chat.log_sent_message(self.filename.text())
         self.filename.setText("")

@@ -49,7 +49,7 @@ class MessageSenderDialog(QDialog):
             msg_warning("Message is empty")
             return None
         self.socket.sendall("m".encode('utf-8'))
-        send_message_by(self.socket, text)
+        send_message_by(self.socket, text, self.algorithm_combobox.currentText())
         msg_success(f"Send {text} in {mode}")
         self.chat.log_sent_message(text)
         self.message.setText("")
