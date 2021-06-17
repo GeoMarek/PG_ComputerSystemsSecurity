@@ -2,3 +2,6 @@
 virtual_env/
 __pycache__/
 stored_data/
+src/dec_files/
+src/enc_files/
+venv/
