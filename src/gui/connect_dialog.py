@@ -7,9 +7,10 @@ from PyQt5 import QtCore
 from PyQt5.QtWidgets import QDialog, QDialogButtonBox, QVBoxLayout, QGroupBox, \
     QFormLayout, QLabel, QLineEdit
 
-from src.logic.utils.path import init_config, init_style
+from src.logic.utils.path import init_config, init_style, get_key, save_public_key, get_public_key
 from src.logic.utils.py_qt import msg_warning, msg_success
 
+from src.logic.utils.connection import rec_key, send_key
 
 class ConnectDialog(QDialog):
     """
@@ -62,6 +63,9 @@ class ConnectDialog(QDialog):
             self.host_addres = self.address_field.text()
             self.end_point = own_socket
             msg_success(f"Successful connect to '{address}'", title="Connected")
+            send_key(self.end_point, get_key('public')) #send public key
+            key = rec_key(self.end_point)
+            save_public_key(key) #save public key from other client
             self.done(0)
             return None
         else:
@@ -71,6 +75,9 @@ class ConnectDialog(QDialog):
             self.host_addres = own_socket.getsockname()[0]
             self.end_point, _ = own_socket.accept()
             msg_success(f"Someone connected to me", title="Connected")
+            send_key(self.end_point, get_key('public')) #send public key
+            key = rec_key(self.end_point)
+            save_public_key(key) #save public key from other client
             self.done(0)
             return None
 

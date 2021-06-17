@@ -52,7 +52,7 @@ class PasswordInput(QDialog):
             msg_warning("You need to type some password!", title="Empty password field")
             return None
         _hash = get_hash_from(self.password.text())
-        print(_hash)
+        #print(_hash)
         # TODO: FEATURE rozszyfrowujemy private key i hash będzie kluczem
         # self.__private_key = odszyfruj(zaszyfrowany_private_key, hash)
         self.done(0)

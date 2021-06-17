@@ -13,8 +13,7 @@ class RsaKeyGenerator:  # pylint: disable=too-few-public-methods
     """
     def __init__(self, algorithm):
         self.config = init_config()
-        self.private_key = RSA.generate(self._get_key_length_based_on(algorithm))
-        self.public_key = self.private_key.publickey()
+        self.key = RSA.generate(self._get_key_length_based_on(algorithm))
         self.filename = "my_rsa_key"
         self.dirname = self._init_directories()
         self.priv_dir = init_directory(os.path.join(self.dirname, "private"))
@@ -24,10 +23,12 @@ class RsaKeyGenerator:  # pylint: disable=too-few-public-methods
         """
         Generate and save keyfiles in specified directory. After this return this directory name.
         """
+        private_key = self.key.export_key()
         with open(os.path.join(self.priv_dir, self.filename), "wb") as private_keyfile:
-            private_keyfile.write(self.private_key.exportKey(format='DER'))
-        with open(os.path.join(self.public_dir, f"{self.filename}.pub"), "wb") as public_keyfile:
-            public_keyfile.write(self.public_key.exportKey(format='DER'))
+            private_keyfile.write(private_key)
+        public_key = self.key.publickey().export_key()
+        with open(os.path.join(self.public_dir, f"{self.filename}"), "wb") as public_keyfile:
+            public_keyfile.write(public_key)
         return self.dirname
 
     def _get_key_length_based_on(self, algorithm_name: str) -> int:

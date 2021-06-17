@@ -2,6 +2,7 @@ import os
 
 from Crypto.Cipher import AES
 from Crypto.Util.Padding import pad, unpad
+from Crypto.Random import get_random_bytes
 
 import ast
 
@@ -13,9 +14,11 @@ def get_file_name(file_path):
 class Encrypter():
 
     def __init__(self, *args, **kwargs):
-        self.MODES = {'ECB', 'CBC', 'CFB', 'OFB'}
-        self.KEY_SIZE_IN_BYTES = 32
-        self.key = b'Uy,\x04m\x8b\x88\x9e*f\xf8\xc4N\xe1\xd6\xdb\xfaL\\\xf2\x89\x9a_\xd4\xb7\xa8\x83\x9f\x16\xb7\x8c\xe4'
+        pass
+
+    def generate_session_key(self, size=32):
+        key = get_random_bytes(size)
+        return key
 
     def RSA_encrypt(self, msg, key):
         return key.encrypt(msg, 32)
@@ -23,8 +26,7 @@ class Encrypter():
     def RSA_decrypt(self, msg, key):
         return key.decrypt(ast.literal_eval(str(msg)))
 
-    def encrypt_msg(self, msg, mode):
-        key = self.key
+    def encrypt_msg(self, msg, mode, key):
         data = msg.encode()
         data = bytearray(data)
         if mode == 'CBC':
@@ -44,8 +46,7 @@ class Encrypter():
             ciphered_data = cipher.iv + ciphered_data
         return ciphered_data
 
-    def decrypt_msg(self, msg, mode, iv_length=16):
-        key = self.key
+    def decrypt_msg(self, msg, mode, key, iv_length=16):
         if mode != 'ECB':
             iv = msg[:iv_length]
             ciphered_data = msg[iv_length:]
@@ -67,8 +68,7 @@ class Encrypter():
 
         return original_data.decode("utf-8")
 
-    def encrypt_fun(self, file_path, mode):
-        key = self.key
+    def encrypt_fun(self, file_path, mode, key):
         with open(file_path, 'rb') as input_file:
             input_data = input_file.read()
 
@@ -98,8 +98,7 @@ class Encrypter():
             enc_file.write(ciphered_data)
         return "enc_files/" + enc_name + ".enc"
 
-    def decrypt_fun(self, file_path, mode, iv_length=16):
-        key = self.key
+    def decrypt_fun(self, file_path, mode, key, iv_length=16):
         with open(file_path, "rb") as enc_file:
             if mode != 'ECB':
                 iv = enc_file.read(iv_length)
